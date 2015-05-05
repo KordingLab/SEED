@@ -1,17 +1,8 @@
-% Generate data living on a union of subspaces
-%%% EXAMPLE (1) %%% 5 subspaces of dim=10, 5 subspaces of dim=20 %%%
-% opts.numsub = 10; opts.ambdim=200; opts.subdim=10; 
-% opts.n1=2.^[5:5+opts.numsubs/2]; opts.n2=2.^[5:5+opts.numsubs/2];
-% opts.k1=10*ones(1,opts.numsubs/2); opts.k2=20*ones(1,opts.numsubs/2);
-% opts.overlap = 5; opts.sampling = 'nonuniform';
-
-%%% EXAMPLE (2) %%% two 20-dim subspaces with 5-dim intersection
-% opts.numsub = 2; opts.ambdim=100; opts.subdim=20; 
-% opts.n1=200; opts.n2=200;
-% opts.overlap = 5; opts.sampling = 'uniform';
-
-function [Y,labels] = gensynthdata(opts) 
-% Creates signals on a union of subspaces X = [X1 X2]
+%%%%%%%%%%%%%%%%%%%
+% Generate a union of subspaces dataset with overlapping pairs of subspaces
+% At each iteration: generate X1 in S1, X2 in S2 and dim(S1+S2)<dim(S1)+dim(S2)
+% Iteratively add a pair of overlapping subspaces to X = [X; X1; X2]; 
+%%%%%%%%%%%%%%%%%%%
 % INPUT
 % opts.numsub (number of subspaces)
 % opts.sampling (either 'uniform' or 'nonuniform' distribution of points on each subspace)
@@ -21,9 +12,28 @@ function [Y,labels] = gensynthdata(opts)
 % opts.k1 (vector containing dimension of subspaces in X1)
 % opts.k2 (vector containing dimension of subspaces in X2)
 % opts.overlap (overlapping dimensions between subspaces in X1 and X2)
+%%%%%%%%%%%%%%%%%%%
+% EXAMPLE (1)
+% opts.numsub = 10; % number of subspaces
+% opts.ambdim=200; % ambient dimension of signals
+% opts.subdim=10; % dimension of each subspace
+% opts.n1=2.^[5:5+opts.numsubs/2]; % number of points in S1
+% opts.n2=2.^[5:5+opts.numsubs/2]; % number of points in S2
+% opts.k1=10*ones(1,opts.numsubs/2); % dimension of S1
+% opts.k2=20*ones(1,opts.numsubs/2); % dimension of S2
+% opts.overlap = 5; % dimension of intersection between pairs (S1,S2)
+% opts.sampling = 'nonuniform'; %
+% opts.kmax = opts.k2; opts.epsilon = 0.05;
+% Results = compute_err([],[1:5:150],opts);
+%%%%%%%%%%%%%%%%%%%
+% EXAMPLE (2) = two 20-dim subspaces with 5-dim intersection
+% opts.numsub = 2; opts.ambdim=100; opts.subdim=20; 
+% opts.n1=200; opts.n2=200;
+% opts.overlap = 5; opts.sampling = 'uniform';
+%%%%%%%%%%%%%%%%%%%
 
+function [Y,labels] = gensynthdata(opts) 
 
-%%%%%%%%%%%%%%%%%%%%
 %%%%% Read in opts (or set to default)
 if isfield(opts,'numsub')
     numsub = opts.numsub;
@@ -98,12 +108,9 @@ for i=1:length(N)-1
     labels(N(i)+1:N(i+1))=i;
 end
 
-% hack for now to compare clustering of big clusters (separate pairs)
-%labels = ceil(labels/2);
-
 Y = removemean(Y); 
 
-end % end main function (wrapper)
+end % end main function
 
 
 %%%%%% Generate data living on a union of two overlapping subspaces
@@ -166,15 +173,6 @@ Y = normcol(Y);
 
 end
 
-function Y2 = normcol(Y)
-
-Y2= zeros(size(Y));
-
-for i=1:size(Y,2)
-   Y2(:,i) = Y(:,i)./norm(Y(:,i));
-end
-    
-end
 
 function Y2 = removemean(Y)
 
