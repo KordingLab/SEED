@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \margl1440\margr1440\vieww12740\viewh10120\viewkind0
@@ -8,37 +8,32 @@
 \
 
 \b 1. Setup \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\b0 \cf0 - Recommended\
-	o  Download and install OMPBox from Rob Rubinstein:\
-	    http://www.cs.technion.ac.il/~ronrubin/Software/ompbox10.zip\
-	o  Add ompbox folder to your path (or place inside SEED folder)
+\b0 - Download and install OMPBox from Rob Rubinstein: \
+  {\field{\*\fldinst{HYPERLINK "http://www.cs.technion.ac.il/~ronrubin/Software/ompbox10.zip"}}{\fldrslt http://www.cs.technion.ac.il/~ronrubin/Software/ompbox10.zip}}\
+- Add ompbox10 folder to your path
 \b \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\b0 \cf0 - When you are in the main folder \'92SEED\'92, run setup.m \
+\b0 - Run setup.m \
 \
 
 \b 2. To get started\
 
-\b0 To run SEED on a synthetic dataset, run demo.m.\
+\b0 - To run SEED on a synthetic dataset consisting of a union of subspaces, run uos_demo.m\
+- To run SEED on a real dataset consisting of a collection of face images under different illumination conditions, run face_demo.m (This face data is taken from a subset of the YaleB face database, {\field{\*\fldinst{HYPERLINK "http://vision.ucsd.edu/~leekc/ExtYaleDatabase/ExtYaleB.html"}}{\fldrslt http://vision.ucsd.edu/~leekc/ExtYaleDatabase/ExtYaleB.html}}\
 \
 
-\b 3. Organization of Code\
+\b References\
 
-\b0 - main code - implementation of seed\
-	< normcol.m > normalizes the columns of its input matrix\
-	OMP > implementation of standard OMP algorithm\
-	seed > seed algorithm (Step 1. oASIS, Step 2: OMP) for solving\
-		min \\| V \\|_0 s.t. \\|X - X*V \\|_F < N*epsilon, \\|V \\|_0 \\le N*kmax\
-	createsuppmat > create sparse matrix V which is an approximate solution to\
-		min \\| V \\_0 s.t diag(\\V) = 0, \\|X - X*V \\|_F < N*epsilon, \\|V \\|_0 \\le N*kmax\
+\b0 ** The paper associated with SEED:\
+E.L. Dyer, T.A. Goldstein, R. Patel, K.P. Kording, R.G. Baraniuk, \'93Self-Expressive Decompositions for Matrix Approximation and Clustering\'94, {\field{\*\fldinst{HYPERLINK "http://arxiv.org/abs/1505.00824"}}{\fldrslt http://arxiv.org/abs/1505.0082}}\
+\
+The paper associated with our column sampling method oASIS:\
+R. Patel, T.A. Goldstein, E.L. Dyer, A. Mirhoseini, R.G. Baraniuk, \'93oASIS: Adaptive Column Sampling for Kernel Matrix Approximation\'94, {\field{\*\fldinst{HYPERLINK "http://arxiv.org/abs/1505.05208"}}{\fldrslt http://arxiv.org/abs/1505.05208}}\
+\
+** Code and examples for the sampling method (oASIS) used in SEED can be found at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 	oasis solvers > implementation of oasis\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 	\
-- sampling methods > various sampling methods \
-	(uniform random, leverage sampling, sequential error sampling)\
-- utils\
+{\field{\*\fldinst{HYPERLINK "https://bitbucket.org/rjp2/oasis/"}}{\fldrslt \cf0 https://bitbucket.org/rjp2/oasis/}}\
+\
+\
 }
