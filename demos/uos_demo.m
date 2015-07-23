@@ -9,7 +9,8 @@
 opts.kmax = 5;
 opts.epsilon = 0.05;
 
-Results = compare_cssmethods([],10:10:100,opts); % Steps (1-3)
+Results = compare_cssmethods([],10:10:200,opts); 
+gcf, axis tight; % Steps (1-3)
 
-plot_err_ncuts(Results) % Step 4
+plot_err_ncuts(Results); axis tight% Step 4
 
