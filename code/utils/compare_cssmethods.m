@@ -69,8 +69,13 @@ end
 % 1. oASIS sampling
 
 Xnorm = normc(X);
-G = Xnorm'*Xnorm; % compute normalized Gram
-[ outs ] = nystrom(G,Lmax,'p',opts);
+Gf = @(r,c)GramMatrixSampler(Xnorm,r,c);
+opts.verbose = true;            
+opts.computeApproxSVD = false;  
+opts.selection = [];            
+opts.use_randomseed = true;    
+opts.startSize = 1;     
+[outs] = oASIS( Gf,L, 'oASIS', opts);
 asisset = outs.selection;
 
 % 2. Sequential error sampling (SES)
@@ -109,6 +114,7 @@ end
 if isfield(opts,'Gnn')
     Gnn = opts.Gnn;
 else
+    G = Xnorm'*Xnorm;
     Gnn = knngraph(abs(G),knn);
 end
 

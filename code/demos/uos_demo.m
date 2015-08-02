@@ -4,7 +4,6 @@
 % 3. Compute normalized cuts for SEED, Leverage, Random, SES, SSC, NN
 % 4. Plot error curves and normalized cuts
 
-
 % input parameters
 opts.kmax = 5;
 opts.epsilon = 0.05;

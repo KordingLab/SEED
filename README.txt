@@ -3,8 +3,11 @@ Read Me !!
 1. Setup
 - Download and install OMPBox from Rob Rubinstein:
   http://www.cs.technion.ac.il/~ronrubin/Software/ompbox10.zip
-- Add ompbox10 folder to your path
-- Run setup.m
+
+- Download and install oASIS solver:
+  https://bitbucket.org/rjp2/oasis/
+
+- Add all folders in oasis, ompbox, and seed to your path
 
 2. To get started
 - To run SEED on a synthetic dataset consisting of a union of subspaces, run uos_demo.m

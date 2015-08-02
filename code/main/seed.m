@@ -1,20 +1,22 @@
 % Compute Self-Expressive Decomposition (SEED) of X as Xout = D*V
 % INPUT 
 % X = data matrix with examples in columns of X (m x N) 
+% L = maximum number of columns to select from X
+    %   (1) if L contains a single integer, then run oasis to select L columns
+    %   (2) if length(L) > 1, assume L = [indices of columns of X to select]
 % opts = struct with options for seed
     % options for opts struct
     % numselect = number of initial columns to select for oasis
     % epsilon = target error for OMP (0 to 1)
     % kmax = target sparsity for OMP (1,2,...,L)
-    % L = number of columns to select (if L is specified, then run oasis)
 % OUPUT
 % D = left factor matrix (m x L)
 % V = right factor matrix (L x N)
 
 % Example Usage:
-% opts.kmax=10; 
+% opts.kmax=10; L = 20;
 % opts.epsilon = 0.05;
-% [D,V] = seed(X,opts);
+% [D,V] = seed(X,L,opts);
 
 function [D,V] = seed(X,L,opts)
 
@@ -44,19 +46,26 @@ else
     ompmethod = 'batch';
 end
 
-%%%%% Initialize algorithm %%%%% 
-X = normcol(X); % normalize data
+%%%%% Normalize columns of X 
+Xnm = normc(X); % normalize data
 
 %%%%% Step 1. Form D %%%%%
 if length(L)>1
     idxset = L; % pass in columns to sample (bypass oasis sampling) 
-else
-    G = X'*X;
-    [ outs ] = nystrom(G,L,'p',opts);
+else 
+    % function handle to build columns of the Gram matrix G = XtX 
+    G = @(r,c)GramMatrixSampler(Xnm,r,c);
+    
+    opts.verbose = true;            
+    opts.computeApproxSVD = false;  
+    opts.selection = [];            
+    opts.use_randomseed = true;    
+    opts.startSize = 1;     
+    [outs] = oASIS( G,L, 'oASIS', opts);
     idxset = outs.selection;
 end
 
-D = normcol(X(:,idxset));
+D = Xnm(:,idxset);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -66,6 +75,7 @@ DtX = D'*Xtst;
 XtX = sum(Xtst.*Xtst);
 G = D'*D;
 
+%%%%% make sure ompbox10 is included in the path (to run omp2.m)
 if strcmp(ompmethod,'batch')
     V = omp2(DtX,XtX,G,epsilon,'maxatoms',kmax);
 else
