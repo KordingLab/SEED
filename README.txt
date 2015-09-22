@@ -7,7 +7,7 @@ Read Me !!
 - Download and install oASIS solver:
   https://bitbucket.org/rjp2/oasis/
 
-- Add all folders in oasis, ompbox, and seed to your path
+- Add all folders in oASIS, OMPbox, and SEED to your path
 
 2. To get started
 - To run SEED on a synthetic dataset consisting of a union of subspaces, run uos_demo.m
